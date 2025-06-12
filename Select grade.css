@@ -193,15 +193,6 @@ body {
     padding: 10px 0 60px;
   }
 
-  /* 2학년 박스를 3번째로 */
-  .box-wrapper:nth-child(2) {
-    order: 3;
-  }
-
-  /* 3학년 박스를 2번째로 */
-  .box-wrapper:nth-child(3) {
-    order: 2;
-  }
 
   .box {
     width: 200px;
