@@ -1,0 +1,91 @@
+@font-face {
+  font-family: "fonnt";
+  src: url("RiaSans-Regular.ttf") format("truetype");
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: linear-gradient(to bottom, white 0%, rgb(222, 222, 222) 5%, black 40%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: sans-serif;
+  position: relative;
+  overflow: hidden;
+}
+
+h1 {
+  position: relative;
+  font-family: "fonnt";
+  font-size: 2rem;
+}
+
+.header-link {
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s;
+  z-index: 2;
+  position: relative;
+}
+
+.header-link:hover {
+  color: #8bbeba;
+}
+
+.orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 400px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+  z-index: 1;
+  filter: drop-shadow(0 0 4px white) drop-shadow(0 0 8px white);
+}
+
+.starfield {
+  opacity: 0.7; /* 은은하지만 더 보이도록 올림 */
+  background: rgba(0, 0, 10, 0.9); /* 밤하늘 짙게 */
+  box-shadow:
+    20px 30px #ffffcc,
+    50px 80px #ffffcc,
+    120px 40px #ffffcc,
+    200px 150px #ffffcc,
+    300px 70px #ffffcc,
+    350px 200px #ffffcc,
+    400px 100px #ffffcc,
+    450px 180px #ffffcc,
+    500px 50px #ffffcc,
+    600px 120px #ffffcc,
+    650px 90px #ffffcc;
+}
+
+.starfield::before {
+  opacity: 0.6; /* 반짝임 좀 더 뚜렷하게 */
+  box-shadow:
+    10px 20px #ffffcc,
+    50px 80px #ffffcc,
+    120px 40px #ffffcc,
+    200px 150px #ffffcc,
+    300px 70px #ffffcc,
+    350px 200px #ffffcc,
+    400px 100px #ffffcc,
+    450px 180px #ffffcc,
+    500px 50px #ffffcc;
+}
+
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+
+.title-wrapper:hover + .starfield {
+  opacity: 1;
+}

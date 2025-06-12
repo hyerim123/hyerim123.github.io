@@ -1,18 +1,169 @@
-<!DOCTYPE html>  <!-- HTML5 문서임을 알려줌 -->
-<html>
-<head>
-    <meta charset="utf-8">  <!-- 한글이 정상적으로 보이도록 설정 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">  <!-- 모바일에서 콘텐츠 크기 최적화 -->
-    <link rel="stylesheet" type="text/css" href="rwd1.css">
-    <title>미디어 쿼리(media query)를 활용한 반응형 웹 디자인</title>
-</head>
+<link rel="stylesheet" href="main.css">
 
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>웹디 기말 </title>
+  <style>
+    @font-face {
+      font-family: "fonnt";
+      src: url("RiaSans-Regular.ttf") format("truetype");
+    }
+
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(to bottom, white 0%, rgb(222, 222, 222) 5%, black 40%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    h1 {
+      position: relative;
+      font-family: "fonnt";
+      font-size: 2rem;
+      z-index: 3; /* 별보다 위에 */
+    }
+
+    .header-link {
+      color: white;
+      text-decoration: none;
+      transition: color 0.3s;
+      z-index: 3;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .header-link:hover {
+      color: #8bbeba;
+    }
+
+    /* 오르빗 기본 숨김 */
+    .orbit {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 400px;
+      height: 400px;
+      transform: translate(-50%, -50%);
+      opacity: 0;
+      transition: opacity 0.5s ease;
+      pointer-events: none;
+      z-index: 2;
+      filter: drop-shadow(0 0 4px white) drop-shadow(0 0 8px white);
+    }
+
+    /* hover 시 오르빗 보이게 */
+    .title-wrapper:hover .orbit {
+      opacity: 1;
+    }
+
+    /* 캔버스 별 배경 */
+    #starfield {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      background: rgba(0, 0, 0, 0.8);
+    }
+  </style>
+</head>
 <body>
-<div class="item-container"></div>
-<div class="item-container"></div>
-<div class="item-container"></div>
-<div class="item-container"></div>
-<div class="item-container"></div>
-<div class="item-container"></div>
+  <canvas id="starfield"></canvas>
+
+  <div class="title-wrapper">
+    <h1>
+      <a href="Select grade.html" class="header-link">New Media & Game Design</a>
+
+      <svg class="orbit" viewBox="0 0 400 400" aria-hidden="true">
+        <path id="orbit-path" d="M200,50 
+                 C310,50 350,150 350,200 
+                 C350,250 310,350 200,350 
+                 C90,350 50,250 50,200 
+                 C50,150 90,50 200,50 Z"
+              fill="none" stroke="white" stroke-width="2"/>
+
+        <circle r="2" fill="white">
+          <animateMotion dur="6s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#orbit-path" />
+          </animateMotion>
+        </circle>
+
+        <circle r="6" fill="white">
+          <animateMotion dur="6s" begin="2s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#orbit-path" />
+          </animateMotion>
+        </circle>
+
+        <circle r="4" fill="white">
+          <animateMotion dur="6s" begin="1s" repeatCount="indefinite" rotate="auto">
+            <mpath href="#orbit-path" />
+          </animateMotion>
+        </circle>
+      </svg>
+    </h1>
+  </div>
+
+  <script>
+    const canvas = document.getElementById('starfield');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let stars = [];
+
+    function init() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+
+      stars = [];
+      for(let i = 0; i < 200; i++) {
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: Math.random() * 1.2,
+          alpha: Math.random(),
+          delta: 0.02 + Math.random() * 0.02
+        });
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      for(let star of stars) {
+        star.alpha += star.delta;
+        if(star.alpha <= 0) {
+          star.alpha = 0;
+          star.delta = -star.delta;
+        } else if(star.alpha >= 1) {
+          star.alpha = 1;
+          star.delta = -star.delta;
+        }
+        ctx.beginPath();
+        ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 204, ${star.alpha})`;
+        ctx.fill();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    window.addEventListener('resize', () => {
+      init();
+    });
+
+    init();
+    animate();
+  </script>
 </body>
 </html>
